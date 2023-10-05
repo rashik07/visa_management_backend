@@ -4,12 +4,12 @@ const passportInfoController = require("../controllers/passportInfo.controller")
 
 const router = express.Router();
 
-const upload =require("../middileware/uploader");
+// const upload =require("../middileware/uploader");
 
-router.post("/post", upload.single('image'), passportInfoController.postPassportInfo);
+// router.post("/post", upload.single('image'), passportInfoController.postPassportInfo);
 router.get("/get", passportInfoController.getPassportInfo);
 router.get("/get/all", passportInfoController.getAllPassportInfo);
-router.put("/update/:id",upload.single('image'), passportInfoController.updatePassportInfo);
+// router.put("/update/:id",upload.single('image'), passportInfoController.updatePassportInfo);
 router.delete("/delete/:id", passportInfoController.deletePassportInfo);
 
 // router.post('/stats', upload.single('uploaded_file'), function (req, res) {
