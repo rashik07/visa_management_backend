@@ -89,10 +89,10 @@ exports.getAllPassportInfo = async (req, res) => {
 exports.updatePassportInfo = async (req, res) => {
   try {
     const { id } = req.params;
-
+// console.log()
     // First, check if the passport information exists
     const passportInfoItem = await PassportInfo.findById(id);
-
+if(req?.file?.originalname){
     if (!passportInfoItem) {
       return res.status(404).json({
         status: "fail",
@@ -103,18 +103,18 @@ exports.updatePassportInfo = async (req, res) => {
     const storage = getStorage();
     const storageRef = ref(
       storage,
-      `files/${req.file.originalname + "       " + dateTime}`
+      `files/${req?.file?.originalname + "       " + dateTime}`
     );
 
     // Create file metadata including the content type
     const metadata = {
-      contentType: req.file.mimetype,
+      contentType: req?.file?.mimetype,
     };
 
     // Upload the file in the bucket storage
     const snapshot = await uploadBytesResumable(
       storageRef,
-      req.file.buffer,
+      req?.file?.buffer,
       metadata
     );
     //by using uploadBytesResumable we can control the progress of uploading like pause, resume, cancel
@@ -122,9 +122,11 @@ exports.updatePassportInfo = async (req, res) => {
     // Grab the public url
     const downloadURL = await getDownloadURL(snapshot.ref);
     // Update the passport information
+
     if (downloadURL) {
       passportInfoItem.image = downloadURL;
     }
+  }
 
     if (req.body.name) {
       passportInfoItem.name = req.body.name;
